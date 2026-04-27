@@ -1,0 +1,296 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>欢迎来到拯救者宇宙</title>
+    <!-- 引入科技感字体 -->
+    <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700;900&family=Rajdhani:wght@300;500;700&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            /* 电竞配色 */
+            --bg-dark: #050508;
+            --neon-cyan: #00f0ff;
+            --neon-magenta: #ff00ff;
+            --neon-yellow: #f0ff00;
+            --glass-bg: rgba(255, 255, 255, 0.03);
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            background-color: var(--bg-dark);
+            background-image: 
+                radial-gradient(circle at 50% 50%, rgba(0, 240, 255, 0.05) 0%, transparent 50%),
+                linear-gradient(rgba(0, 240, 255, 0.02) 1px, transparent 1px),
+                linear-gradient(90deg, rgba(0, 240, 255, 0.02) 1px, transparent 1px);
+            background-size: 100% 100%, 30px 30px, 30px 30px;
+            color: #fff;
+            font-family: 'Rajdhani', sans-serif;
+            overflow-x: hidden;
+            min-height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+
+        /* 扫描线效果 */
+        body::before {
+            content: "";
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(
+                transparent 50%,
+                rgba(0, 0, 0, 0.1) 50%
+            );
+            background-size: 100% 4px;
+            pointer-events: none;
+            z-index: 9999;
+        }
+
+        /* --- 倒计时容器 --- */
+        #countdown-container {
+            text-align: center;
+            z-index: 10;
+            animation: fadeIn 1s ease-in-out;
+        }
+
+        .glitch-title {
+            font-family: 'Orbitron', monospace;
+            font-size: 2.5rem;
+            font-weight: 900;
+            text-transform: uppercase;
+            letter-spacing: 0.2em;
+            margin-bottom: 50px;
+            color: var(--neon-cyan);
+            text-shadow: 
+                0 0 5px var(--neon-cyan),
+                0 0 10px var(--neon-cyan),
+                0 0 20px var(--neon-cyan);
+            position: relative;
+        }
+
+        .timer-box {
+            display: flex;
+            gap: 20px;
+            justify-content: center;
+            flex-wrap: wrap;
+        }
+
+        .time-unit {
+            background: var(--glass-bg);
+            border: 1px solid var(--neon-cyan);
+            padding: 20px 30px;
+            min-width: 120px;
+            position: relative;
+            clip-path: polygon(10px 0, 100% 0, 100% calc(100% - 10px), calc(100% - 10px) 100%, 0 100%, 0 10px);
+            box-shadow: 0 0 15px rgba(0, 240, 255, 0.2), inset 0 0 20px rgba(0, 240, 255, 0.05);
+        }
+
+        .time-unit::before {
+            content: "";
+            position: absolute;
+            top: -2px; left: -2px; right: -2px; bottom: -2px;
+            background: linear-gradient(45deg, var(--neon-cyan), transparent, var(--neon-magenta));
+            z-index: -1;
+            opacity: 0.5;
+            filter: blur(5px);
+        }
+
+        .number {
+            font-family: 'Orbitron', monospace;
+            font-size: 4rem;
+            font-weight: 700;
+            color: #fff;
+            text-shadow: 0 0 10px var(--neon-magenta);
+            display: block;
+            line-height: 1;
+        }
+
+        .label {
+            font-size: 0.9rem;
+            color: var(--neon-cyan);
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            margin-top: 10px;
+            display: block;
+            opacity: 0.8;
+        }
+
+        /* --- 正式内容容器 --- */
+        #main-content {
+            display: none; /* 初始隐藏 */
+            width: 100%;
+            max-width: 900px;
+            padding: 40px;
+            text-align: center;
+            animation: zoomIn 0.8s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+        }
+
+        .hero-header {
+            border: 2px solid var(--neon-yellow);
+            padding: 50px;
+            background: rgba(240, 255, 0, 0.05);
+            position: relative;
+            margin-bottom: 40px;
+        }
+
+        .hero-header::after {
+            content: "LIVE";
+            position: absolute;
+            top: -15px;
+            right: 20px;
+            background: #ff0000;
+            color: #fff;
+            padding: 5px 15px;
+            font-size: 0.8rem;
+            font-weight: bold;
+            animation: blink 1s infinite;
+        }
+
+        h1 {
+            font-family: 'Orbitron', sans-serif;
+            font-size: 3.5rem;
+            background: linear-gradient(to right, var(--neon-yellow), var(--neon-magenta));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            margin-bottom: 20px;
+        }
+
+        p {
+            font-size: 1.2rem;
+            line-height: 1.8;
+            color: #ccc;
+        }
+
+        .cta-button {
+            display: inline-block;
+            margin-top: 30px;
+            padding: 15px 50px;
+            font-family: 'Orbitron', sans-serif;
+            font-size: 1.2rem;
+            background: transparent;
+            color: var(--neon-cyan);
+            border: 2px solid var(--neon-cyan);
+            cursor: pointer;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            transition: all 0.3s;
+            text-decoration: none;
+        }
+
+        .cta-button:hover {
+            background: var(--neon-cyan);
+            color: #000;
+            box-shadow: 0 0 30px var(--neon-cyan);
+        }
+
+        /* --- 动画 --- */
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        @keyframes zoomIn {
+            from { opacity: 0; transform: scale(0.8); }
+            to { opacity: 1; transform: scale(1); }
+        }
+
+        @keyframes blink {
+            50% { opacity: 0; }
+        }
+
+        /* 响应式 */
+        @media (max-width: 600px) {
+            .number { font-size: 2.5rem; }
+            .time-unit { min-width: 80px; padding: 15px; }
+            h1 { font-size: 2rem; }
+        }
+    </style>
+</head>
+<body>
+
+    <!-- 倒计时页面 -->
+    <div id="countdown-container">
+        <div class="glitch-title">你的碎片 即将解锁</div>
+        <div class="glitch-title">SYSTEM BOOTING</div>
+        <div class="timer-box">
+            <div class="time-unit">
+                <span class="number" id="days">00</span>
+                <span class="label">Days</span>
+            </div>
+            <div class="time-unit">
+                <span class="number" id="hours">00</span>
+                <span class="label">Hours</span>
+            </div>
+            <div class="time-unit">
+                <span class="number" id="minutes">00</span>
+                <span class="label">Minutes</span>
+            </div>
+            <div class="time-unit">
+                <span class="number" id="seconds">00</span>
+                <span class="label">Seconds</span>
+            </div>
+        </div>
+    </div>
+
+    <!-- 正式内容页面 -->
+    <div id="main-content">
+        <div class="hero-header">
+            <h1>LEGACY AWAKENS</h1>
+            <p>欢迎来到拯救者宇宙。您的碎片已超前解锁，数据正在同步。</p>
+            <a href="#" class="cta-button">Enter The Arena</a>
+        </div>
+        <!-- 这里可以添加更多正式内容，比如视频、图片列表等 -->
+    </div>
+
+    <script>
+        // 设置目标时间：2026年5月18日 零点 (北京时间)
+        // 注意：月份从0开始，所以5月是4
+        const targetDate = new Date('2026-05-18T00:00:00+08:00').getTime();
+
+        const daysEl = document.getElementById('days');
+        const hoursEl = document.getElementById('hours');
+        const minutesEl = document.getElementById('minutes');
+        const secondsEl = document.getElementById('seconds');
+        const countdownContainer = document.getElementById('countdown-container');
+        const mainContent = document.getElementById('main-content');
+
+        function updateCountdown() {
+            const now = new Date().getTime();
+            const distance = targetDate - now;
+
+            if (distance < 0) {
+                // 倒计时结束，切换内容
+                countdownContainer.style.display = 'none';
+                mainContent.style.display = 'block';
+                return; // 停止函数
+            }
+
+            // 计算时间
+            const days = Math.floor(distance / (1000 * 60 * 60 * 24));
+            const hours = Math.floor((distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+            const minutes = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));
+            const seconds = Math.floor((distance % (1000 * 60)) / 1000);
+
+            // 更新DOM，补零
+            daysEl.textContent = String(days).padStart(2, '0');
+            hoursEl.textContent = String(hours).padStart(2, '0');
+            minutesEl.textContent = String(minutes).padStart(2, '0');
+            secondsEl.textContent = String(seconds).padStart(2, '0');
+        }
+
+        // 立即执行一次
+        updateCountdown();
+        // 每秒更新
+        setInterval(updateCountdown, 1000);
+    </script>
+</body>
+</html>
