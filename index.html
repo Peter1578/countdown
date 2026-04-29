@@ -4,16 +4,15 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>欢迎来到拯救者宇宙</title>
-    <!-- 引入科技感字体 -->
-    <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700;900&family=Rajdhani:wght@300;500;700&display=swap" rel="stylesheet">
+    <!-- 引入科技感+电竞字体 -->
+    <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700;900&family=Rajdhani:wght@300;500;700&family=Exo+2:wght@700;800;900&display=swap" rel="stylesheet">
     <style>
         :root {
-            /* 电竞配色 */
-            --bg-dark: #050508;
+            --bg-dark: #000000;
             --neon-cyan: #00f0ff;
-            --neon-magenta: #ff00ff;
-            --neon-yellow: #f0ff00;
-            --glass-bg: rgba(255, 255, 255, 0.03);
+            --neon-purple: #d000ff;
+            --card-bg: #0a0a18;
+            --neon-glow: rgba(0, 240, 255, 0.4);
         }
 
         * {
@@ -24,18 +23,15 @@
 
         body {
             background-color: var(--bg-dark);
-            background-image: 
-                radial-gradient(circle at 50% 50%, rgba(0, 240, 255, 0.05) 0%, transparent 50%),
-                linear-gradient(rgba(0, 240, 255, 0.02) 1px, transparent 1px),
-                linear-gradient(90deg, rgba(0, 240, 255, 0.02) 1px, transparent 1px);
-            background-size: 100% 100%, 30px 30px, 30px 30px;
             color: #fff;
-            font-family: 'Rajdhani', sans-serif;
+            font-family: 'Orbitron', monospace;
             overflow-x: hidden;
             min-height: 100vh;
             display: flex;
+            flex-direction: column;
             justify-content: center;
             align-items: center;
+            padding: 20px;
         }
 
         /* 扫描线效果 */
@@ -46,10 +42,7 @@
             left: 0;
             width: 100%;
             height: 100%;
-            background: linear-gradient(
-                transparent 50%,
-                rgba(0, 0, 0, 0.1) 50%
-            );
+            background: linear-gradient(transparent 50%, rgba(0, 0, 0, 0.1) 50%);
             background-size: 100% 4px;
             pointer-events: none;
             z-index: 9999;
@@ -78,40 +71,40 @@
         }
 
         .timer-box {
+            background: rgba(0, 10, 20, 0.4);
+            border: 4px solid #00f0ff; /* 电脑端边框加粗 */
+            border-image: linear-gradient(to right, #d000ff, #00dbdb) 1;
+            padding: 20px 30px;
+            border-radius: 12px;
+            box-shadow: 
+                0 0 20px rgba(0, 240, 255, 0.3),
+                inset 0 0 30px rgba(0, 240, 255, 0.1);
             display: flex;
-            gap: 20px;
             justify-content: center;
-            flex-wrap: wrap;
+            align-items: center;
+            gap: 25px; /* 时间之间的间距 */
+            flex-wrap: wrap; /* 取消强制nowrap，适配手机换行（必要时） */
+            z-index: 10;
+            min-width: 90%;
+            max-width: 600px;
         }
 
         .time-unit {
-            background: var(--glass-bg);
-            border: 1px solid var(--neon-cyan);
-            padding: 20px 30px;
-            min-width: 120px;
-            position: relative;
-            clip-path: polygon(10px 0, 100% 0, 100% calc(100% - 10px), calc(100% - 10px) 100%, 0 100%, 0 10px);
-            box-shadow: 0 0 15px rgba(0, 240, 255, 0.2), inset 0 0 20px rgba(0, 240, 255, 0.05);
-        }
-
-        .time-unit::before {
-            content: "";
-            position: absolute;
-            top: -2px; left: -2px; right: -2px; bottom: -2px;
-            background: linear-gradient(45deg, var(--neon-cyan), transparent, var(--neon-magenta));
-            z-index: -1;
-            opacity: 0.5;
-            filter: blur(5px);
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            min-width: 70px; /* 手机端最小宽度适配 */
         }
 
         .number {
             font-family: 'Orbitron', monospace;
-            font-size: 4rem;
-            font-weight: 700;
+            font-size: 3.5rem;
+            font-weight: 900;
             color: #fff;
-            text-shadow: 0 0 10px var(--neon-magenta);
-            display: block;
-            line-height: 1;
+            text-shadow: 
+                0 0 10px var(--neon-cyan),
+                0 0 20px var(--neon-cyan);
+            position: relative;
         }
 
         .label {
@@ -119,77 +112,102 @@
             color: var(--neon-cyan);
             text-transform: uppercase;
             letter-spacing: 2px;
-            margin-top: 10px;
-            display: block;
-            opacity: 0.8;
+            text-align: center;
+            margin-top: 5px;
         }
 
         /* --- 正式内容容器 --- */
         #main-content {
-            display: none; /* 初始隐藏 */
+            display: none;
             width: 100%;
-            max-width: 900px;
-            padding: 40px;
+            max-width: 800px;
+            padding: 20px;
             text-align: center;
             animation: zoomIn 0.8s cubic-bezier(0.175, 0.885, 0.32, 1.275);
         }
 
         .hero-header {
-            border: 2px solid var(--neon-yellow);
-            padding: 50px;
-            background: rgba(240, 255, 0, 0.05);
+            background: #0a0a18;
+            border: 4px solid var(--neon-cyan); /* 核心：正式页面边框加粗到4px */
+            padding: 50px 30px;
+            border-radius: 16px;
+            box-shadow: 
+                0 0 60px var(--neon-glow), /* 增强发光效果 */
+                inset 0 0 40px rgba(0, 240, 255, 0.1);
             position: relative;
-            margin-bottom: 40px;
+            overflow: hidden;
         }
 
         .hero-header::after {
-            content: "LIVE";
+            content: "UNLOCKED";
             position: absolute;
-            top: -15px;
-            right: 20px;
-            background: #ff0000;
+            top: 10px;          
+            right: 25px;        
+            background: var(--neon-purple);
             color: #fff;
-            padding: 5px 15px;
+            padding: 6px 18px;
             font-size: 0.8rem;
-            font-weight: bold;
-            animation: blink 1s infinite;
+            font-weight: 900; /* 标签字体加粗 */
+            border-radius: 6px;
+            text-shadow: 0 0 8px #fff; /* 增强发光 */
+            animation: blink 1.2s infinite alternate;
+            z-index: 1;         
+            border: 2px solid #fff; /* 标签加细边框，更电竞 */
         }
 
         h1 {
-            font-family: 'Orbitron', sans-serif;
-            font-size: 3.5rem;
-            background: linear-gradient(to right, var(--neon-yellow), var(--neon-magenta));
+            font-family: 'Exo 2', 'Orbitron', sans-serif; /* 更电竞的字体 */
+            font-size: 3.5rem; /* 标题放大 */
+            font-weight: 900; /* 极致加粗 */
+            background: linear-gradient(to right, var(--neon-cyan), var(--neon-purple));
             -webkit-background-clip: text;
+            background-clip: text;
             -webkit-text-fill-color: transparent;
             margin-bottom: 20px;
+            text-shadow: 0 0 12px rgba(0, 240, 255, 0.25); 
+            letter-spacing: 3px; /* 增加字间距，更电竞 */
+            position: relative;
+            z-index: 2; /* 提升标题层级 */
         }
 
         p {
-            font-size: 1.2rem;
-            line-height: 1.8;
-            color: #ccc;
+            font-family: 'Rajdhani', sans-serif;
+            font-size: 1.3rem;
+            font-weight: 500;
+            color: #a0e0ff;
+            line-height: 1.7;
+            text-shadow: 0 0 8px rgba(0, 240, 255, 0.4);
+            letter-spacing: 1px;
+            position: relative;
+            z-index: 2;
         }
 
         .cta-button {
             display: inline-block;
-            margin-top: 30px;
-            padding: 15px 50px;
-            font-family: 'Orbitron', sans-serif;
+            margin-top: 35px;
+            padding: 18px 50px; /* 按钮放大 */
             font-size: 1.2rem;
+            font-weight: 700;
             background: transparent;
             color: var(--neon-cyan);
-            border: 2px solid var(--neon-cyan);
+            border: 4px solid var(--neon-cyan); /* 按钮边框加粗 */
+            border-radius: 8px;
             cursor: pointer;
             text-transform: uppercase;
-            letter-spacing: 2px;
-            transition: all 0.3s;
+            letter-spacing: 3px; /* 增加字间距 */
+            transition: 0.3s;
             text-decoration: none;
+            box-shadow: 0 0 20px var(--neon-glow);
+            font-family: 'Exo 2', sans-serif; /* 按钮用电竞字体 */
+            position: relative;
+            z-index: 2;
         }
 
         .cta-button:hover {
             background: var(--neon-cyan);
             color: #000;
-            box-shadow: 0 0 30px var(--neon-cyan);
+            box-shadow: 0 0 40px var(--neon-cyan);
+            transform: scale(1.05); /* hover轻微放大，更动感 */
         }
 
         /* --- 动画 --- */
@@ -204,14 +222,59 @@
         }
 
         @keyframes blink {
-            50% { opacity: 0; }
+            0% { opacity: 0.9; }
+            100% { opacity: 0.3; }
         }
 
-        /* 响应式 */
-        @media (max-width: 600px) {
-            .number { font-size: 2.5rem; }
-            .time-unit { min-width: 80px; padding: 15px; }
-            h1 { font-size: 2rem; }
+        /* 响应式 - 修复闭合括号 + 优化手机端 */
+        @media (max-width: 768px) {
+            .glitch-title { 
+                font-size: 1.6rem; 
+                margin-bottom: 30px; /* 减少标题间距，适配小屏 */
+            }
+            .number { font-size: 2.2rem; }
+            .timer-box { 
+                gap: 15px; 
+                padding: 20px 15px; 
+                border-width: 3px; 
+                min-width: 95%; /* 更贴合手机屏幕 */
+            }
+            .hero-header h1 { 
+                font-size: 2.5rem; 
+                letter-spacing: 2px;
+                text-shadow: 0 0 8px rgba(0, 240, 255, 0.2);
+            }
+            .hero-header { 
+                border-width: 3px; 
+                padding: 40px 20px; 
+            }
+            .cta-button { 
+                padding: 15px 40px; 
+                border-width: 3px; 
+                font-size: 1.1rem; 
+                letter-spacing: 2px; /* 减少按钮字间距 */
+            }
+            /* 移动端适配标签位置 */
+            .hero-header::after {
+                top: 8px;
+                right: 15px;
+                padding: 4px 12px;
+                font-size: 0.7rem;
+                border-width: 1px;
+            }
+            /* 手机端正文字体缩小，更易读 */
+            p {
+                font-size: 1.1rem;
+                letter-spacing: 0.5px;
+            }
+        }
+
+        /* 适配小屏手机（400px以下） */
+        @media (max-width: 400px) {
+            .number { font-size: 1.8rem; }
+            .timer-box { gap: 10px; }
+            .hero-header h1 { font-size: 2rem; }
+            .cta-button { padding: 12px 30px; font-size: 1rem; }
         }
     </style>
 </head>
@@ -224,19 +287,19 @@
         <div class="timer-box">
             <div class="time-unit">
                 <span class="number" id="days">00</span>
-                <span class="label">Days</span>
+                <span class="label">天</span>
             </div>
             <div class="time-unit">
                 <span class="number" id="hours">00</span>
-                <span class="label">Hours</span>
+                <span class="label">时</span>
             </div>
             <div class="time-unit">
                 <span class="number" id="minutes">00</span>
-                <span class="label">Minutes</span>
+                <span class="label">分</span>
             </div>
             <div class="time-unit">
                 <span class="number" id="seconds">00</span>
-                <span class="label">Seconds</span>
+                <span class="label">秒</span>
             </div>
         </div>
     </div>
@@ -244,17 +307,15 @@
     <!-- 正式内容页面 -->
     <div id="main-content">
         <div class="hero-header">
-            <h1>LEGACY AWAKENS</h1>
-            <p>欢迎来到拯救者宇宙。您的碎片已超前解锁，数据正在同步。</p>
-            <a href="#" class="cta-button">Enter The Arena</a>
+            <h1>欢迎来到拯救者宇宙</h1>
+            <p>您的碎片已超前解锁，数据正在同步。</p>
+            <a href="#" class="cta-button">请在社群领取您的解锁密钥</a>
         </div>
-        <!-- 这里可以添加更多正式内容，比如视频、图片列表等 -->
     </div>
 
     <script>
-        // 设置目标时间：2026年5月18日 零点 (北京时间)
-        // 注意：月份从0开始，所以5月是4
-        const targetDate = new Date('2026-05-18T00:00:00+08:00').getTime();
+        // 设置目标时间：2026年4月29日 16:51 (北京时间)
+        const targetDate = new Date('2026-04-29T20:10:00+08:00').getTime();
 
         const daysEl = document.getElementById('days');
         const hoursEl = document.getElementById('hours');
