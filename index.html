@@ -240,16 +240,24 @@
         }
 
        @media (max-width: 768px) {
-            .glitch-title { font-size: clamp(1.2rem, 5vw, 1.6rem); margin-bottom: 30px; white-space: nowrap;}
-            .number { font-size: clamp(1.8rem, 6vw, 2.2rem);  }
+            .glitch-title { 
+                font-size: 1.6rem; 
+                margin-bottom: 30px; /* 减少标题间距，适配小屏 */
+            }
+            .number { font-size: 2.2rem;  }
             .hero-header h1 { 
                 letter-spacing: 1px;
                 font-size: clamp(1.8rem, 6vw, 3rem);
                 text-shadow: 0 0 8px rgba(0, 240, 255, 0.2);
             }
-            .timer-box { gap: 10px; padding: 15px 10px; border-width: 3px; min-width: 95%;}
+            .timer-box {   
+                gap: 15px; 
+                padding: 20px 15px; 
+                border-width: 3px; 
+                min-width: 95%; 
+            }
             .hero-header { border-width: 3px; padding: 30px 15px;   min-height: 380px; max-width: 95%;}
-            .cta-button { padding: 12px 30px; border-width: 3px; font-size: 0.5rem; letter-spacing: 0.5px;}
+            .cta-button { padding: 12px 30px; border-width: 3px; font-size: 0.5rem; letter-spacing: 1px;}
             /* 移动端适配标签位置 */
             .hero-header::after {
                 top: 10px;
@@ -297,8 +305,8 @@
     </div>
 
     <script>
-        // 设置目标时间：2026年4月29日 00:00 (北京时间)
-        const targetDate = new Date('2026-04-29T21:10:00+08:00').getTime();
+        // 设置目标时间：2026年5月18日 00:00 (北京时间)
+        const targetDate = new Date('2026-05-18T00:00:00+08:00').getTime();
 
         const daysEl = document.getElementById('days');
         const hoursEl = document.getElementById('hours');
