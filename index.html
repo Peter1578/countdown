@@ -120,8 +120,8 @@
         #main-content {
             display: none;
             width: 100%;
-            max-width: 800px;
-            padding: 20px;
+            max-width: 700px;
+            padding: 10px;
             text-align: center;
             animation: zoomIn 0.8s cubic-bezier(0.175, 0.885, 0.32, 1.275);
         }
@@ -129,64 +129,75 @@
         .hero-header {
             background: #0a0a18;
             border: 4px solid var(--neon-cyan); /* 核心：正式页面边框加粗到4px */
-            padding: 50px 30px;
+            padding: 30px 15px;
+            min-height: 450px;
+            max-width: 90%;
             border-radius: 16px;
             box-shadow: 
                 0 0 60px var(--neon-glow), /* 增强发光效果 */
                 inset 0 0 40px rgba(0, 240, 255, 0.1);
             position: relative;
             overflow: hidden;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
         }
 
         .hero-header::after {
-            content: "UNLOCKED";
+           content: "UNLOCKED";
             position: absolute;
             top: 10px;          
-            right: 25px;        
+            right: 15px;        
             background: var(--neon-purple);
             color: #fff;
-            padding: 6px 18px;
-            font-size: 0.8rem;
+            padding: 4px 12px;
+            font-size: 0.7rem;
             font-weight: 900; /* 标签字体加粗 */
             border-radius: 6px;
             text-shadow: 0 0 8px #fff; /* 增强发光 */
             animation: blink 1.2s infinite alternate;
             z-index: 1;         
-            border: 2px solid #fff; /* 标签加细边框，更电竞 */
+            border: 1px solid #fff; /* 标签加细边框，更电竞 */
+            white-space: nowrap; /* 强制标题不换行 */
         }
 
         h1 {
-            font-family: 'Exo 2', 'Orbitron', sans-serif; /* 更电竞的字体 */
-            font-size: 3.5rem; /* 标题放大 */
+           font-family: 'Exo 2', 'Orbitron', sans-serif; /* 更电竞的字体 */
+            font-size: clamp(1.8rem, 6vw, 3.5rem); /* 标题放大 */
             font-weight: 900; /* 极致加粗 */
             background: linear-gradient(to right, var(--neon-cyan), var(--neon-purple));
             -webkit-background-clip: text;
             background-clip: text;
             -webkit-text-fill-color: transparent;
             margin-bottom: 20px;
+            /* 核心修改：降低阴影透明度+缩小阴影范围，保证文字清晰 */
             text-shadow: 0 0 12px rgba(0, 240, 255, 0.25); 
-            letter-spacing: 3px; /* 增加字间距，更电竞 */
+            letter-spacing: 1px; /* 增加字间距，更电竞 */
             position: relative;
             z-index: 2; /* 提升标题层级 */
+            white-space: nowrap; /* 强制标题不换行 */
         }
 
         p {
             font-family: 'Rajdhani', sans-serif;
-            font-size: 1.3rem;
+            font-size: clamp(1rem, 3vw, 1.3rem);
             font-weight: 500;
             color: #a0e0ff;
             line-height: 1.7;
             text-shadow: 0 0 8px rgba(0, 240, 255, 0.4);
-            letter-spacing: 1px;
+            letter-spacing: 0.5px;
             position: relative;
             z-index: 2;
+            white-space: nowrap; /* 正文不换行 */
+            margin-bottom: 20px;
         }
 
         .cta-button {
             display: inline-block;
-            margin-top: 35px;
-            padding: 18px 50px; /* 按钮放大 */
-            font-size: 1.2rem;
+            margin-top: 15px;
+            padding: 12px 25px; /* 按钮放大 */
+            font-size: clamp(0.9rem, 2.5vw, 1.2rem);
             font-weight: 700;
             background: transparent;
             color: var(--neon-cyan);
@@ -194,13 +205,15 @@
             border-radius: 8px;
             cursor: pointer;
             text-transform: uppercase;
-            letter-spacing: 3px; /* 增加字间距 */
+            letter-spacing: 1px; /* 增加字间距 */
             transition: 0.3s;
             text-decoration: none;
             box-shadow: 0 0 20px var(--neon-glow);
             font-family: 'Exo 2', sans-serif; /* 按钮用电竞字体 */
             position: relative;
             z-index: 2;
+            white-space: nowrap; /* 按钮文字不换行 */
+            line-height: 1.2;
         }
 
         .cta-button:hover {
@@ -226,55 +239,25 @@
             100% { opacity: 0.3; }
         }
 
-        /* 响应式 - 修复闭合括号 + 优化手机端 */
-        @media (max-width: 768px) {
-            .glitch-title { 
-                font-size: 1.6rem; 
-                margin-bottom: 30px; /* 减少标题间距，适配小屏 */
-            }
-            .number { font-size: 2.2rem; }
-            .timer-box { 
-                gap: 15px; 
-                padding: 20px 15px; 
-                border-width: 3px; 
-                min-width: 95%; /* 更贴合手机屏幕 */
-            }
+       @media (max-width: 768px) {
+            .glitch-title { font-size: clamp(1.2rem, 5vw, 1.6rem); margin-bottom: 30px; white-space: nowrap;}
+            .number { font-size: clamp(1.8rem, 6vw, 2.2rem);  }
             .hero-header h1 { 
-                font-size: 2.5rem; 
-                letter-spacing: 2px;
+                letter-spacing: 1px;
+                font-size: clamp(1.8rem, 6vw, 3rem);
                 text-shadow: 0 0 8px rgba(0, 240, 255, 0.2);
             }
-            .hero-header { 
-                border-width: 3px; 
-                padding: 40px 20px; 
-            }
-            .cta-button { 
-                padding: 15px 40px; 
-                border-width: 3px; 
-                font-size: 1.1rem; 
-                letter-spacing: 2px; /* 减少按钮字间距 */
-            }
+            .timer-box { gap: 10px; padding: 15px 10px; border-width: 3px; min-width: 95%;}
+            .hero-header { border-width: 3px; padding: 30px 15px;   min-height: 380px; max-width: 95%;}
+            .cta-button { padding: 12px 30px; border-width: 3px; font-size: 0.5rem; letter-spacing: 0.5px;}
             /* 移动端适配标签位置 */
             .hero-header::after {
-                top: 8px;
-                right: 15px;
-                padding: 4px 12px;
-                font-size: 0.7rem;
+                top: 10px;
+                right: 10px;
+                padding: 3px 10px;
+                font-size: 0.6rem;
                 border-width: 1px;
             }
-            /* 手机端正文字体缩小，更易读 */
-            p {
-                font-size: 1.1rem;
-                letter-spacing: 0.5px;
-            }
-        }
-
-        /* 适配小屏手机（400px以下） */
-        @media (max-width: 400px) {
-            .number { font-size: 1.8rem; }
-            .timer-box { gap: 10px; }
-            .hero-header h1 { font-size: 2rem; }
-            .cta-button { padding: 12px 30px; font-size: 1rem; }
         }
     </style>
 </head>
@@ -308,14 +291,14 @@
     <div id="main-content">
         <div class="hero-header">
             <h1>欢迎来到拯救者宇宙</h1>
-            <p>您的碎片已超前解锁，数据正在同步。</p>
+            <p>您的碎片已超前解锁 数据正在同步</p>
             <a href="#" class="cta-button">请在社群领取您的解锁密钥</a>
         </div>
     </div>
 
     <script>
-        // 设置目标时间：2026年4月29日 16:51 (北京时间)
-        const targetDate = new Date('2026-04-29T20:10:00+08:00').getTime();
+        // 设置目标时间：2026年4月29日 00:00 (北京时间)
+        const targetDate = new Date('2026-04-29T21:10:00+08:00').getTime();
 
         const daysEl = document.getElementById('days');
         const hoursEl = document.getElementById('hours');
