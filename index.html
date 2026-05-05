@@ -4,12 +4,12 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>欢迎来到拯救者宇宙</title>
-    <!-- 引入科技感+电竞字体 -->
     <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700;900&family=Rajdhani:wght@300;500;700&family=Exo+2:wght@700;800;900&display=swap" rel="stylesheet">
     <style>
         :root {
             --bg-dark: #000000;
             --neon-cyan: #00f0ff;
+            --neon-cyan-light: #99e6ff;
             --neon-purple: #d000ff;
             --card-bg: #0a0a18;
             --neon-glow: rgba(0, 240, 255, 0.4);
@@ -32,9 +32,10 @@
             justify-content: center;
             align-items: center;
             padding: 20px;
+            position: relative;
+            background-image: radial-gradient(circle at 50% 50%, rgba(10, 30, 50, 0.3), transparent 70%);
         }
 
-        /* 扫描线效果 */
         body::before {
             content: "";
             position: fixed;
@@ -46,6 +47,50 @@
             background-size: 100% 4px;
             pointer-events: none;
             z-index: 9999;
+            opacity: 0.7;
+        }
+
+        /* ========== 水印基础样式 ========== */
+        .product-watermark {
+            font-family: 'Orbitron', monospace;
+            font-weight: 900;
+            text-transform: uppercase;
+            letter-spacing: 2.5px;
+            white-space: nowrap;
+            color: #fff; 
+            text-shadow: 
+                0 0 5px var(--neon-cyan), 
+                0 0 10px var(--neon-cyan);
+            position: absolute;
+            z-index: 5;
+            pointer-events: none;
+            padding: 0;
+            border: none;
+            background: none;
+            box-shadow: none;
+            border-radius: 0;
+            /* 添加过渡动画，让移动更丝滑 */
+            transition: all 0.8s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+        }
+
+        /* --- 倒计时阶段：在上方 --- */
+        .watermark-position-top {
+            top: 150px; 
+            left: 50%;
+            transform: translateX(-50%);
+            font-size: clamp(1.2rem, 5vw, 1.6rem);
+        }
+
+        /* --- 正式页面阶段：在下方 --- */
+        .watermark-position-bottom {
+            /* 移除 top，改为 bottom */
+            top: auto;
+            bottom: 200px; 
+            left: 50%;
+            transform: translateX(-52%);
+            font-size: clamp(0.9rem, 3.5vw, 1.2rem);
+            text-align: center;
+            width: 100%;
         }
 
         /* --- 倒计时容器 --- */
@@ -53,57 +98,75 @@
             text-align: center;
             z-index: 10;
             animation: fadeIn 1s ease-in-out;
+            position: relative;
+            margin-top: 0;
         }
 
         .glitch-title {
             font-family: 'Orbitron', monospace;
-            font-size: 2.5rem;
-            font-weight: 900;
+            font-size: clamp(1.8rem, 5vw, 2.5rem);
+            font-weight: 900; 
             text-transform: uppercase;
             letter-spacing: 0.2em;
-            margin-bottom: 50px;
+            margin-bottom: 15px;
             color: var(--neon-cyan);
             text-shadow: 
-                0 0 5px var(--neon-cyan),
-                0 0 10px var(--neon-cyan),
-                0 0 20px var(--neon-cyan);
+                0 0 6px var(--neon-cyan),
+                0 0 12px var(--neon-cyan),
+                0 0 25px var(--neon-cyan);
             position: relative;
         }
 
+        .system-booting {
+            font-family: 'Orbitron', monospace;
+            font-size: clamp(2rem, 6vw, 3rem);
+            font-weight: 900;
+            text-transform: uppercase;
+            letter-spacing: 0.1em;
+            margin: 25px 0 40px 0;
+            color: var(--neon-cyan);
+            text-shadow: 
+                0 0 10px var(--neon-cyan),
+                0 0 20px var(--neon-cyan),
+                0 0 40px var(--neon-cyan);
+            position: relative;
+            animation: pulse 3s infinite alternate;
+        }
+
         .timer-box {
-            background: rgba(0, 10, 20, 0.4);
-            border: 4px solid #00f0ff; /* 电脑端边框加粗 */
-            border-image: linear-gradient(to right, #d000ff, #00dbdb) 1;
-            padding: 20px 30px;
+            background: rgba(0, 10, 20, 0.45);
+            border: 4px solid var(--neon-cyan);
+            border-image: linear-gradient(to right, var(--neon-purple), var(--neon-cyan)) 1;
+            padding: 22px 32px;
             border-radius: 12px;
             box-shadow: 
-                0 0 20px rgba(0, 240, 255, 0.3),
-                inset 0 0 30px rgba(0, 240, 255, 0.1);
+                0 0 25px rgba(0, 240, 255, 0.35),
+                inset 0 0 35px rgba(0, 240, 255, 0.12);
             display: flex;
             justify-content: center;
             align-items: center;
-            gap: 25px; /* 时间之间的间距 */
-            flex-wrap: wrap; /* 取消强制nowrap，适配手机换行（必要时） */
+            gap: 25px;
+            flex-wrap: wrap;
             z-index: 10;
             min-width: 90%;
-            max-width: 600px;
+            max-width: 620px;
         }
 
         .time-unit {
             display: flex;
             flex-direction: column;
             align-items: center;
-            min-width: 70px; /* 手机端最小宽度适配 */
+            min-width: 70px;
         }
 
         .number {
             font-family: 'Orbitron', monospace;
-            font-size: 3.5rem;
+            font-size: clamp(2.2rem, 8vw, 3.5rem);
             font-weight: 900;
             color: #fff;
             text-shadow: 
-                0 0 10px var(--neon-cyan),
-                0 0 20px var(--neon-cyan);
+                0 0 12px var(--neon-cyan),
+                0 0 25px var(--neon-cyan);
             position: relative;
         }
 
@@ -113,7 +176,8 @@
             text-transform: uppercase;
             letter-spacing: 2px;
             text-align: center;
-            margin-top: 5px;
+            margin-top: 6px;
+            opacity: 0.85;
         }
 
         /* --- 正式内容容器 --- */
@@ -124,18 +188,19 @@
             padding: 10px;
             text-align: center;
             animation: zoomIn 0.8s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            position: relative;
         }
 
         .hero-header {
             background: #0a0a18;
-            border: 4px solid var(--neon-cyan); /* 核心：正式页面边框加粗到4px */
+            border: 4px solid var(--neon-cyan);
             padding: 30px 15px;
             min-height: 450px;
             max-width: 90%;
             border-radius: 16px;
             box-shadow: 
-                0 0 60px var(--neon-glow), /* 增强发光效果 */
-                inset 0 0 40px rgba(0, 240, 255, 0.1);
+                0 0 65px var(--neon-glow),
+                inset 0 0 45px rgba(0, 240, 255, 0.12);
             position: relative;
             overflow: hidden;
             display: flex;
@@ -153,30 +218,29 @@
             color: #fff;
             padding: 4px 12px;
             font-size: 0.7rem;
-            font-weight: 900; /* 标签字体加粗 */
+            font-weight: 900;
             border-radius: 6px;
-            text-shadow: 0 0 8px #fff; /* 增强发光 */
+            text-shadow: 0 0 8px #fff;
             animation: blink 1.2s infinite alternate;
             z-index: 1;         
-            border: 1px solid #fff; /* 标签加细边框，更电竞 */
-            white-space: nowrap; /* 强制标题不换行 */
+            border: 1px solid #fff;
+            white-space: nowrap;
         }
 
         h1 {
-           font-family: 'Exo 2', 'Orbitron', sans-serif; /* 更电竞的字体 */
-            font-size: clamp(1.8rem, 6vw, 3.5rem); /* 标题放大 */
-            font-weight: 900; /* 极致加粗 */
+           font-family: 'Exo 2', 'Orbitron', sans-serif;
+            font-size: clamp(1.8rem, 6vw, 3.5rem);
+            font-weight: 900;
             background: linear-gradient(to right, var(--neon-cyan), var(--neon-purple));
             -webkit-background-clip: text;
             background-clip: text;
             -webkit-text-fill-color: transparent;
             margin-bottom: 20px;
-            /* 核心修改：降低阴影透明度+缩小阴影范围，保证文字清晰 */
             text-shadow: 0 0 12px rgba(0, 240, 255, 0.25); 
-            letter-spacing: 1px; /* 增加字间距，更电竞 */
+            letter-spacing: 1px;
             position: relative;
-            z-index: 2; /* 提升标题层级 */
-            white-space: nowrap; /* 强制标题不换行 */
+            z-index: 2;
+            white-space: nowrap;
         }
 
         p {
@@ -189,30 +253,30 @@
             letter-spacing: 0.5px;
             position: relative;
             z-index: 2;
-            white-space: nowrap; /* 正文不换行 */
+            white-space: nowrap;
             margin-bottom: 20px;
         }
 
         .cta-button {
             display: inline-block;
             margin-top: 15px;
-            padding: 12px 25px; /* 按钮放大 */
+            padding: 12px 25px;
             font-size: clamp(0.9rem, 2.5vw, 1.2rem);
             font-weight: 700;
             background: transparent;
             color: var(--neon-cyan);
-            border: 4px solid var(--neon-cyan); /* 按钮边框加粗 */
+            border: 4px solid var(--neon-cyan);
             border-radius: 8px;
             cursor: pointer;
             text-transform: uppercase;
-            letter-spacing: 1px; /* 增加字间距 */
-            transition: 0.3s;
+            letter-spacing: 1px;
+            transition: 0.3s ease;
             text-decoration: none;
             box-shadow: 0 0 20px var(--neon-glow);
-            font-family: 'Exo 2', sans-serif; /* 按钮用电竞字体 */
+            font-family: 'Exo 2', sans-serif;
             position: relative;
             z-index: 2;
-            white-space: nowrap; /* 按钮文字不换行 */
+            white-space: nowrap;
             line-height: 1.2;
         }
 
@@ -220,10 +284,15 @@
             background: var(--neon-cyan);
             color: #000;
             box-shadow: 0 0 40px var(--neon-cyan);
-            transform: scale(1.05); /* hover轻微放大，更动感 */
+            transform: scale(1.05);
         }
 
         /* --- 动画 --- */
+        @keyframes pulse {
+            0% { opacity: 0.9; text-shadow: 0 0 10px var(--neon-cyan), 0 0 20px var(--neon-cyan), 0 0 40px var(--neon-cyan); }
+            100% { opacity: 1; text-shadow: 0 0 15px var(--neon-cyan), 0 0 30px var(--neon-cyan), 0 0 50px var(--neon-cyan); }
+        }
+
         @keyframes fadeIn {
             from { opacity: 0; transform: translateY(20px); }
             to { opacity: 1; transform: translateY(0); }
@@ -242,8 +311,27 @@
        @media (max-width: 768px) {
             .glitch-title { 
                 font-size: 1.6rem; 
-                margin-bottom: 30px; /* 减少标题间距，适配小屏 */
+                margin-bottom: 10px;
             }
+            .system-booting {
+                font-size: 1.8rem;
+                margin: 20px 0 30px 0;
+            }
+            
+            /* 移动端：上方位置 */
+            .watermark-position-top {
+                top: 85px; 
+                font-size: 0.85rem;
+                letter-spacing: 2px;
+            }
+            /* 移动端：下方位置 */
+            .watermark-position-bottom {
+                bottom: 160px; 
+                transform: translateX(-52%);
+                font-size: 0.75rem;
+                letter-spacing: 1px;
+            }
+
             .number { font-size: 2.2rem;  }
             .hero-header h1 { 
                 letter-spacing: 1px;
@@ -256,9 +344,8 @@
                 border-width: 3px; 
                 min-width: 95%; 
             }
-            .hero-header { border-width: 3px; padding: 30px 15px;   min-height: 380px; max-width: 95%;}
-            .cta-button { padding: 12px 30px; border-width: 3px; font-size: 0.5rem; letter-spacing: 1px;}
-            /* 移动端适配标签位置 */
+            .hero-header { border-width: 3px; padding: 30px 15px; min-height: 380px; max-width: 95%;}
+            .cta-button { padding: 12px 30px; border-width: 3px; font-size: 0.9rem; letter-spacing: 1px;}
             .hero-header::after {
                 top: 10px;
                 right: 10px;
@@ -271,10 +358,13 @@
 </head>
 <body>
 
+    <!-- 【核心修改】只保留一个水印，初始类名为上方的类 -->
+    <div id="dynamic-watermark" class="product-watermark watermark-position-top">拯救者手机Y70 新一代</div>
+
     <!-- 倒计时页面 -->
     <div id="countdown-container">
         <div class="glitch-title">你的碎片 即将解锁</div>
-        <div class="glitch-title">SYSTEM BOOTING</div>
+        <div class="system-booting">SYSTEM BOOTING</div>
         <div class="timer-box">
             <div class="time-unit">
                 <span class="number" id="days">00</span>
@@ -305,8 +395,8 @@
     </div>
 
     <script>
-        // 设置目标时间：2026年5月18日 00:00 (北京时间)
-        const targetDate = new Date('2026-05-18T00:00:00+08:00').getTime();
+        // 目标时间：2026年5月18日
+        const targetDate = new Date('2026-05-05T13:20:00+08:00').getTime();
 
         const daysEl = document.getElementById('days');
         const hoursEl = document.getElementById('hours');
@@ -314,34 +404,38 @@
         const secondsEl = document.getElementById('seconds');
         const countdownContainer = document.getElementById('countdown-container');
         const mainContent = document.getElementById('main-content');
+        
+        // 【修改 1】获取这唯一的水印元素
+        const watermark = document.getElementById('dynamic-watermark');
 
         function updateCountdown() {
             const now = new Date().getTime();
             const distance = targetDate - now;
 
             if (distance < 0) {
-                // 倒计时结束，切换内容
                 countdownContainer.style.display = 'none';
                 mainContent.style.display = 'block';
-                return; // 停止函数
+                
+                // 【修改 2】切换水印的位置类名
+                // 移除“上方”类，添加“下方”类
+                watermark.classList.remove('watermark-position-top');
+                watermark.classList.add('watermark-position-bottom');
+
+                return;
             }
 
-            // 计算时间
             const days = Math.floor(distance / (1000 * 60 * 60 * 24));
             const hours = Math.floor((distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
             const minutes = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));
             const seconds = Math.floor((distance % (1000 * 60)) / 1000);
 
-            // 更新DOM，补零
             daysEl.textContent = String(days).padStart(2, '0');
             hoursEl.textContent = String(hours).padStart(2, '0');
             minutesEl.textContent = String(minutes).padStart(2, '0');
             secondsEl.textContent = String(seconds).padStart(2, '0');
         }
 
-        // 立即执行一次
         updateCountdown();
-        // 每秒更新
         setInterval(updateCountdown, 1000);
     </script>
 </body>
