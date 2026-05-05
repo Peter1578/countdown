@@ -2,7 +2,7 @@
 <html lang="zh-CN">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
     <title>欢迎来到拯救者宇宙</title>
     <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700;900&family=Rajdhani:wght@300;500;700&family=Exo+2:wght@700;800;900&display=swap" rel="stylesheet">
     <style>
@@ -27,6 +27,7 @@
             font-family: 'Orbitron', monospace;
             overflow-x: hidden;
             min-height: 100vh;
+            min-height: 100dvh;
             display: flex;
             flex-direction: column;
             justify-content: center;
@@ -69,11 +70,10 @@
             background: none;
             box-shadow: none;
             border-radius: 0;
-            /* 添加过渡动画，让移动更丝滑 */
             transition: all 0.8s cubic-bezier(0.175, 0.885, 0.32, 1.275);
         }
 
-        /* --- 倒计时阶段：在上方 --- */
+        /* --- 倒计时阶段：在页面上方 --- */
         .watermark-position-top {
             top: 150px; 
             left: 50%;
@@ -81,13 +81,13 @@
             font-size: clamp(1.2rem, 5vw, 1.6rem);
         }
 
-        /* --- 正式页面阶段：在下方 --- */
+        /* --- 正式页面阶段：精准匹配截图位置 --- */
         .watermark-position-bottom {
-            /* 移除 top，改为 bottom */
             top: auto;
-            bottom: 200px; 
+            /* 【核心修改】距离卡片底部55px，完美匹配你截图的位置 */
+            bottom: 55px; 
             left: 50%;
-            transform: translateX(-52%);
+            transform: translateX(-50%);
             font-size: clamp(0.9rem, 3.5vw, 1.2rem);
             text-align: center;
             width: 100%;
@@ -191,10 +191,11 @@
             position: relative;
         }
 
+        /* 【同步修改】底部内边距增加到120px，完美适配水印位置 */
         .hero-header {
             background: #0a0a18;
             border: 4px solid var(--neon-cyan);
-            padding: 30px 15px;
+            padding: 30px 15px 120px 15px;
             min-height: 450px;
             max-width: 90%;
             border-radius: 16px;
@@ -318,17 +319,16 @@
                 margin: 20px 0 30px 0;
             }
             
-            /* 移动端：上方位置 */
+            /* 移动端：倒计时阶段水印位置 */
             .watermark-position-top {
-                top: 180px; 
-                font-size: 1rem;
+                top: 85px; 
+                font-size: 0.85rem;
                 letter-spacing: 2px;
             }
-            /* 移动端：下方位置 */
+            /* 【移动端同步调整】距离卡片底部45px，保持和PC端一样的相对比例 */
             .watermark-position-bottom {
-                bottom: 200px; 
-                transform: translateX(-52%);
-                font-size: 1rem;
+                bottom: 45px;
+                font-size: 0.75rem;
                 letter-spacing: 1px;
             }
 
@@ -344,7 +344,13 @@
                 border-width: 3px; 
                 min-width: 95%; 
             }
-            .hero-header { border-width: 3px; padding: 30px 15px; min-height: 380px; max-width: 95%;}
+            /* 移动端底部内边距同步调整 */
+            .hero-header { 
+                border-width: 3px; 
+                padding: 30px 15px 100px 15px;
+                min-height: 380px; 
+                max-width: 95%;
+            }
             .cta-button { padding: 12px 30px; border-width: 3px; font-size: 0.9rem; letter-spacing: 1px;}
             .hero-header::after {
                 top: 10px;
@@ -354,12 +360,19 @@
                 border-width: 1px;
             }
         }
+
+        /* 微信浏览器专属适配 */
+        @supports (-webkit-overflow-scrolling: touch) {
+            body {
+                min-height: -webkit-fill-available;
+            }
+        }
     </style>
 </head>
 <body>
 
-    <!-- 【核心修改】只保留一个水印，初始类名为上方的类 -->
-    <div id="dynamic-watermark" class="product-watermark watermark-position-top">拯救者手机Y70 新一代</div>
+    <!-- 倒计时阶段水印（全局定位） -->
+    <div id="countdown-watermark" class="product-watermark watermark-position-top">拯救者手机Y70 新一代</div>
 
     <!-- 倒计时页面 -->
     <div id="countdown-container">
@@ -388,6 +401,9 @@
     <!-- 正式内容页面 -->
     <div id="main-content">
         <div class="hero-header">
+            <!-- 正式页面的水印（卡片内部定位） -->
+            <div id="card-watermark" class="product-watermark watermark-position-bottom" style="display: none;">拯救者手机Y70 新一代</div>
+            
             <h1>欢迎来到拯救者宇宙</h1>
             <p>您的碎片已超前解锁 数据正在同步</p>
             <a href="#" class="cta-button">请在社群领取您的解锁密钥</a>
@@ -396,7 +412,7 @@
 
     <script>
         // 目标时间：2026年5月18日
-        const targetDate = new Date('2026-05-05T13:40:00+08:00').getTime();
+        const targetDate = new Date('2026-05-05T14:40:00+08:00').getTime();
 
         const daysEl = document.getElementById('days');
         const hoursEl = document.getElementById('hours');
@@ -405,8 +421,9 @@
         const countdownContainer = document.getElementById('countdown-container');
         const mainContent = document.getElementById('main-content');
         
-        // 【修改 1】获取这唯一的水印元素
-        const watermark = document.getElementById('dynamic-watermark');
+        // 获取两个水印元素
+        const countdownWatermark = document.getElementById('countdown-watermark');
+        const cardWatermark = document.getElementById('card-watermark');
 
         function updateCountdown() {
             const now = new Date().getTime();
@@ -416,10 +433,10 @@
                 countdownContainer.style.display = 'none';
                 mainContent.style.display = 'block';
                 
-                // 【修改 2】切换水印的位置类名
-                // 移除“上方”类，添加“下方”类
-                watermark.classList.remove('watermark-position-top');
-                watermark.classList.add('watermark-position-bottom');
+                // 隐藏倒计时阶段的全局水印
+                countdownWatermark.style.display = 'none';
+                // 显示卡片内部的水印
+                cardWatermark.style.display = 'block';
 
                 return;
             }
@@ -437,6 +454,13 @@
 
         updateCountdown();
         setInterval(updateCountdown, 1000);
+
+        // 微信页面加载完成后强制重绘
+        if (typeof WeixinJSBridge !== 'undefined') {
+            WeixinJSBridge.invoke('getNetworkType', {}, function(e) {
+                window.dispatchEvent(new Event('resize'));
+            });
+        }
     </script>
 </body>
 </html>
