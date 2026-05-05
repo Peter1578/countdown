@@ -146,17 +146,23 @@
             justify-content: center;
             align-items: center;
             gap: 25px;
-            flex-wrap: wrap;
+            /* 【核心修复1】强制所有时间单位在一行显示，永不换行 */
+            flex-wrap: nowrap;
             z-index: 10;
             min-width: 90%;
             max-width: 620px;
+            /* 【核心修复2】防止内容溢出容器 */
+            overflow: hidden;
         }
 
         .time-unit {
             display: flex;
             flex-direction: column;
             align-items: center;
-            min-width: 70px;
+            /* 【核心修复3】减小最小宽度，让四个单位更紧凑 */
+            min-width: 55px;
+            /* 【核心修复4】防止单个时间单位内部换行 */
+            white-space: nowrap;
         }
 
         .number {
@@ -332,18 +338,35 @@
                 letter-spacing: 1px;
             }
 
-            .number { font-size: 2.2rem;  }
+            /* 【核心修复5】移动端进一步压缩间距和字体 */
+            .timer-box {   
+                gap: 12px; 
+                padding: 18px 12px; 
+                border-width: 3px; 
+                min-width: 95%; 
+                /* 移动端也强制不换行 */
+                flex-wrap: nowrap;
+            }
+
+            .time-unit {
+                min-width: 45px;
+            }
+
+            .number { 
+                font-size: clamp(1.8rem, 6vw, 2.2rem);  
+            }
+
+            .label {
+                font-size: 0.75rem;
+                letter-spacing: 1px;
+            }
+
             .hero-header h1 { 
                 letter-spacing: 1px;
                 font-size: clamp(1.8rem, 6vw, 3rem);
                 text-shadow: 0 0 8px rgba(0, 240, 255, 0.2);
             }
-            .timer-box {   
-                gap: 15px; 
-                padding: 20px 15px; 
-                border-width: 3px; 
-                min-width: 95%; 
-            }
+
             /* 移动端底部内边距同步调整 */
             .hero-header { 
                 border-width: 3px; 
